@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HashLink } from 'react-router-hash-link';
 
 const DocsSidebar = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -26,39 +27,21 @@ const DocsSidebar = () => {
       label: 'Endpoints', 
       icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
       children: [
-        { id: 'endpoints-fetch', label: 'Fetch Thread' },
-        { id: 'endpoints-batch', label: 'Batch Fetch' },
-        { id: 'endpoints-analytics', label: 'Usage Analytics' }
+        { id: 'endpoints-fetch-img', label: 'Fetch Images' },
+        { id: 'endpoints-fetch-vid', label: 'Fetch Videos' },
+        { id: 'endpoints-fetch-crsel', label: 'Fetch Carousel Posts' }
       ]
     },
-    { id: 'error-handling', label: 'Error Handling', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
-    { id: 'rate-limits', label: 'Rate Limits', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
     { id: 'conclusion', label: 'Conclusion', icon: 'M5 13l4 4L19 7' }
   ];
 
   return (
     <>
-      {/* SideBar for Medium to Large Breakpoints */} 
-      <div className="hidden md:block">
+      {/* SideBar for Medium to Large Breakpoints */}
+      <div className="hidden md:block fixed top-0 left-0 h-screen z-10">
         <div className="w-64 bg-gray-50 text-gray-800 h-screen overflow-y-auto shadow-lg custom-scrollbar">
-          <style>{`
-            .custom-scrollbar::-webkit-scrollbar {
-              width: 8px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-track {
-              background: #f1f1f1;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb {
-              background: #cdcdcd;
-              border-radius: 4px;
-            }
-            .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-              background: #ababab;
-            }
-          `}</style>
-
           <div className="px-6 py-4 border-b border-gray-200">
-            <h1 className="text-xl font-bold">Threads API Docs</h1>
+            <h1 className="text-lg font-bold">ThreadSnatch API Docs</h1>
             <p className="text-gray-500 text-sm">v1.0.0</p>
           </div>
           <div className="p-3">
@@ -67,9 +50,8 @@ const DocsSidebar = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clipRule="evenodd" />
                 </svg>
-                <span className="font-medium">12.2x Faster</span>
+                <span className="font-medium">7.5x Faster</span>
               </div>
-              <p className="text-xs mt-1">Than competitors</p>
             </div>
 
             <nav>
@@ -80,7 +62,7 @@ const DocsSidebar = () => {
                       <div>
                         <button 
                           onClick={() => toggleSection(section.id)}
-                          className={`w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 text-left`}
+                          className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 text-left"
                         >
                           <div className="flex items-center">
                             <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -101,21 +83,23 @@ const DocsSidebar = () => {
                           <ul className="pl-6 mt-1 space-y-1">
                             {section.children.map(child => (
                               <li key={child.id}>
-                                <a
-                                  href={`#${child.id}`}
+                                <HashLink
+                                  smooth
+                                  to={`#${child.id}`}
                                   onClick={() => setActiveSection(child.id)}
                                   className={`block px-3 py-1 rounded-md text-sm ${activeSection === child.id ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200'}`}
                                 >
                                   {child.label}
-                                </a>
+                                </HashLink>
                               </li>
                             ))}
                           </ul>
                         )}
                       </div>
                     ) : (
-                      <a
-                        href={`#${section.id}`}
+                      <HashLink
+                        smooth
+                        to={`#${section.id}`}
                         onClick={() => setActiveSection(section.id)}
                         className={`flex items-center px-3 py-2 rounded-md ${activeSection === section.id ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200'}`}
                       >
@@ -123,7 +107,7 @@ const DocsSidebar = () => {
                           <path strokeLinecap="round" strokeLinejoin="round" d={section.icon} />
                         </svg>
                         <span>{section.label}</span>
-                      </a>
+                      </HashLink>
                     )}
                   </li>
                 ))}
@@ -131,23 +115,16 @@ const DocsSidebar = () => {
             </nav>
 
             <div className="mt-8 pt-4 border-t border-gray-200">
-              <a 
-                href="#api-key" 
+              <HashLink 
+                smooth
+                to="#api-key" 
                 className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-center justify-center"
               >
                 <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                 </svg>
                 <span>Get API Key</span>
-              </a>
-              <a 
-                href="https://rapidapi.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 mt-2 border border-gray-300 hover:bg-gray-200 rounded-md text-center justify-center"
-              >
-                <span>RapidAPI Marketplace</span>
-              </a>
+              </HashLink>
             </div>
           </div>
         </div>
@@ -155,7 +132,7 @@ const DocsSidebar = () => {
 
       {/* Mobile Sidebar */}
       <div className="block md:hidden">
-        <div className="bg-white border-b border-gray-200">
+        <div className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-10">
           {/* Mobile Header */}
           <div className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center">
@@ -203,7 +180,7 @@ const DocsSidebar = () => {
                         <div>
                           <button 
                             onClick={() => toggleSection(section.id)}
-                            className={`w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 text-left`}
+                            className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-200 text-left"
                           >
                             <div className="flex items-center">
                               <svg className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -224,8 +201,9 @@ const DocsSidebar = () => {
                             <ul className="pl-6 mt-1 space-y-1">
                               {section.children.map(child => (
                                 <li key={child.id}>
-                                  <a
-                                    href={`#${child.id}`}
+                                  <HashLink
+                                    smooth
+                                    to={`#${child.id}`}
                                     onClick={() => {
                                       setActiveSection(child.id);
                                       setMobileMenuOpen(false);
@@ -233,15 +211,16 @@ const DocsSidebar = () => {
                                     className={`block px-3 py-1 rounded-md text-sm ${activeSection === child.id ? 'bg-blue-600 text-white' : 'text-gray-600 hover:bg-gray-200'}`}
                                   >
                                     {child.label}
-                                  </a>
+                                  </HashLink>
                                 </li>
                               ))}
                             </ul>
                           )}
                         </div>
                       ) : (
-                        <a
-                          href={`#${section.id}`}
+                        <HashLink
+                          smooth
+                          to={`#${section.id}`}
                           onClick={() => {
                             setActiveSection(section.id);
                             setMobileMenuOpen(false);
@@ -252,15 +231,16 @@ const DocsSidebar = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" d={section.icon} />
                           </svg>
                           <span>{section.label}</span>
-                        </a>
+                        </HashLink>
                       )}
                     </li>
                   ))}
                 </ul>
 
                 <div className="mt-6 pt-4 border-t border-gray-200 flex flex-col space-y-2">
-                  <a 
-                    href="#api-key" 
+                  <HashLink 
+                    smooth
+                    to="#api-key" 
                     className="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-center justify-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -268,16 +248,7 @@ const DocsSidebar = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                     </svg>
                     <span>Get API Key</span>
-                  </a>
-                  <a 
-                    href="https://rapidapi.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex items-center px-4 py-2 border border-gray-300 hover:bg-gray-200 rounded-md text-center justify-center"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <span>RapidAPI Marketplace</span>
-                  </a>
+                  </HashLink>
                 </div>
               </nav>
             </div>
